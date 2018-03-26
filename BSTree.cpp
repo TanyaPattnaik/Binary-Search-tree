@@ -133,7 +133,7 @@ temp=temp->next;
 */
 
 
-node *bsearch(node *v,int data)
+node *search(node *v,int data)
 {
  node *temp=v,*p;
  if(v==NULL)
@@ -144,9 +144,9 @@ node *bsearch(node *v,int data)
   else
   {
    if(data < temp->data)
-   p=bsearch(temp->left,data);
+   p=search(temp->left,data);
    else if(data > temp->data)
-   p=bsearch(temp->right,data);
+   p=search(temp->right,data);
    else
    {
     cout<<"Found\n";
@@ -155,6 +155,50 @@ node *bsearch(node *v,int data)
    return p;
   }
  }
+
+void deleteNode(int key)
+ {
+  node *p=search(root,key);
+  if(p->left == NULL && p->right == NULL)
+  {
+   if(p->parent->left == p)
+   p->parent->left=NULL;
+   else
+   p->parent->right=NULL;
+  }
+  else if(p->left==NULL)
+  {
+  if(p->parent->left==p)
+   p->parent->left=p->right;
+  else
+   p->parent->right=p->right;
+  }
+  else if(p->right == NULL)
+  {
+   if(p->parent->left == p)
+   p->parent->left=p->left;
+   else
+   p->parent->right=p->left;
+  }
+  else
+  {
+    node *temp=p->left;
+   while(temp->right != NULL)
+   {
+    temp=temp->right;
+   }
+   if(temp->left != NULL)
+   {
+    temp->parent->right=temp->left;
+    p->data=temp->data;
+   }
+   else
+   {
+    temp->parent->right=NULL;
+    p->data=temp->data;
+   }
+  }
+}
 
 };
 
@@ -166,7 +210,9 @@ b.insert(b.root,4);
 b.insert(b.root,11);
 b.insert(b.root,3);
 b.display(b.root);
-b.bsearch(b.root,7);
+b.search(b.root,7);
+b.deleteNode(4);
+b.display(b.root);
 return 0;
 
 }
