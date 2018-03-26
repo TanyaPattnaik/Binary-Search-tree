@@ -23,7 +23,7 @@ public:
 bTree(){
 root=NULL;
 }
-
+/*
 void insert(node *v,int x)
  {
   node *temp=new node;
@@ -58,7 +58,7 @@ void insert(node *v,int x)
    }
  }
 }
-/*
+
 void insertLeft(node *temp,int x){
  node *tmp=new node;
  tmp->data=x;
@@ -72,7 +72,7 @@ void insertRight(node *temp,int x){
  tmp->data=x;
  temp->right=tmp;
  tmp->parent=temp;
-}
+} */
 
 void insert(node *t,int val){
 node *temp=new node;
@@ -80,35 +80,32 @@ temp->data=val;
 
 
 if(root==NULL){
- root->data=val;
+ root=temp;
 }                                  
 
 else
-
-while(t!=NULL){
-
+{
   if(val < t->data){
     if(t->left==NULL){
-      insertLeft(t,val);
-      }
+      t->left=temp;
+      temp->parent=t;      
+     }
     else
     {
-     t=t->left;
-     break;
+     insert(t->left,val);
      }
   }
   else{
     if(t->right==NULL){
-      insertRight(t,val);
+      t->right=temp;
+      temp->parent=t;
     }
   else{
-    t=t->right;
-    break;
+    insert(t->right,val);
     }
   }
  }
-}  */
-
+}  
 
 
 
@@ -121,6 +118,44 @@ void display(node *temp){
   display(temp->right);
 }
 
+/*void search(int k){
+node *temp=root;
+if(k<temp->left){
+if(temp->data==k){
+cout<<"FOUND!";
+break;
+}
+else
+{
+temp=temp->next;
+
+
+*/
+
+
+node *bsearch(node *v,int data)
+{
+ node *temp=v,*p;
+ if(v==NULL)
+ {
+  cout<<"Not Found\n";
+  return NULL;
+  }
+  else
+  {
+   if(data < temp->data)
+   p=bsearch(temp->left,data);
+   else if(data > temp->data)
+   p=bsearch(temp->right,data);
+   else
+   {
+    cout<<"Found\n";
+    return temp;
+   }
+   return p;
+  }
+ }
+
 };
 
 int main(){
@@ -131,5 +166,7 @@ b.insert(b.root,4);
 b.insert(b.root,11);
 b.insert(b.root,3);
 b.display(b.root);
+b.bsearch(b.root,7);
 return 0;
+
 }
