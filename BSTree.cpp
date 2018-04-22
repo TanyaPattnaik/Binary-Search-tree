@@ -7,6 +7,7 @@ int data;
 node *parent;
 node *left;
 node *right;
+ //constructor
 node(){
  data=-1;
  parent=NULL;
@@ -85,18 +86,18 @@ if(root==NULL){
 
 else
 {
-  if(val < t->data){
-    if(t->left==NULL){
+  if(val < t->data){             
+    if(t->left==NULL){          //when leaf
       t->left=temp;
       temp->parent=t;      
      }
     else
     {
-     insert(t->left,val);
+     insert(t->left,val);         //if not null, call recursively till reaches leftmost node
      }
   }
   else{
-    if(t->right==NULL){
+    if(t->right==NULL){              //when one child
       t->right=temp;
       temp->parent=t;
     }
@@ -113,9 +114,9 @@ void display(node *temp){
   if(temp==NULL){
     return;
   }
-  display(temp->left);
-  cout<<temp->data<<" ";
-  display(temp->right);
+  display(temp->left);              //inorder traversal
+  cout<<temp->data<<" ";            
+  display(temp->right);             
 }
 
 /*void search(int k){
@@ -159,14 +160,14 @@ node *search(node *v,int data)
 void deleteNode(int key)
  {
   node *p=search(root,key);
-  if(p->left == NULL && p->right == NULL)
+  if(p->left == NULL && p->right == NULL)       //p is leaf
   {
-   if(p->parent->left == p)
+   if(p->parent->left == p)           //check whether p is left child
    p->parent->left=NULL;
    else
    p->parent->right=NULL;
   }
-  else if(p->left==NULL)
+  else if(p->left==NULL)              //p has one child
   {
   if(p->parent->left==p)
    p->parent->left=p->right;
@@ -181,7 +182,7 @@ void deleteNode(int key)
    p->parent->right=p->left;
   }
   else
-  {
+  {                                       //p has both children
     node *temp=p->left;
    while(temp->right != NULL)
    {
